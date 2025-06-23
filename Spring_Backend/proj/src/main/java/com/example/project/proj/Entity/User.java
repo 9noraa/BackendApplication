@@ -1,5 +1,7 @@
 package com.example.project.proj.Entity;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -12,23 +14,28 @@ public class User {
     private String password;
     private String email;
     private double wallet;
+    @Autowired
+    private Cart cart;
 
-    User(){
+    public User(){
 
     }
 
-    User(String username, String password, String email){
+    public User(String username, String password, String email){
         this.username = username;
         this.password = password;
         this.email = email;
         this.wallet = 0.0;
+        this.cart = new Cart();
     }
 
-    User(String username, String password, String email, double wallet){
+    public User(String username, String password, String email, double wallet){
         this.username = username;
         this.password = password;
         this.email = email;
         this.wallet = wallet;
+        this.id = 0L;
+        this.cart = new Cart();
     }
 
     public void setUsername(String username){
@@ -58,5 +65,13 @@ public class User {
     }
     public Long getId(){
         return this.id;
+    }
+    public Cart getCart(){
+        return this.cart;
+    }
+
+    @Override
+    public String toString(){
+        return "User{ userId = " + this.id + ", username = '" + this.username + "', password = '" + this.password + "', email = '" + this.email + "', funds = " + this.wallet + ", cart = " + this.cart.toString() + " }";
     }
 }

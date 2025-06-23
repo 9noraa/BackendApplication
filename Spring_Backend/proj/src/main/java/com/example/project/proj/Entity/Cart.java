@@ -1,5 +1,6 @@
 package com.example.project.proj.Entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -14,14 +15,18 @@ public class Cart {
     private List<Item> items;
     private double price;
 
-    Cart(){
-
+    public Cart(){
+        this.userId = 0;
+        this.price = 0.0;
+        this.items = new ArrayList<>();
     }
 
-    Cart(List<Item> items, double price, Integer userId){
+    public Cart(List<Item> items, double price, Integer userId){
         this.items = items;
         this.price = price;
         this.userId = userId;
+        this.id = 0L;
+        this.items = new ArrayList<>();
     }
 
     public void setCartList(List<Item> items){
@@ -40,8 +45,10 @@ public class Cart {
     //public void removeItem(Item item){}
     public void calculateTotal(){
         double total = 0.0;
-        for(Item items : this.items)
-            total += items.getPrice();
+        if(!this.items.isEmpty()){
+            for(Item item : this.items)
+                total += item.getPrice();
+        }
         this.price = total;
     }
 
@@ -54,5 +61,22 @@ public class Cart {
     }
     public Integer getUser(){
         return this.userId;
+    }
+    public Long getId(){
+        return this.id;
+    }
+
+    @Override
+    public String toString(){
+        String str = "{ ";
+        if(!this.items.isEmpty()){
+            for(Item item : this.items){
+                str = str.concat(item.getName());
+                //fix later
+                str = str.concat(", ");
+            }
+        }
+        str = str.concat("}");
+        return str;
     }
 }
